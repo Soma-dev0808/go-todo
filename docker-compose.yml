@@ -41,6 +41,7 @@ services:
     # コンテナ内にある MySQL に格納するデータを永続化させるために使用するボリュームを指定
     volumes:
       - db-volume:/var/lib/mysql
+      - ./migrations:/docker-entrypoint-initdb.d
 
 # ボリュームの作成
 volumes:
