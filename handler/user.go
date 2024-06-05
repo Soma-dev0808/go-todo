@@ -47,9 +47,10 @@ type UpdateUserRequestParam struct {
 	ID int `uri:"id" binding:"required"`
 }
 
+// TODO: binding:でmaxを設置。nilの場合に弾かれてしまう。カスタムバリデーション？
 type UpdateUserRequestBodyParam struct {
-	Name string `json:"name" binding:"required,max=60"`
-	GradeScore int `json:"grade_score" binding:"required,max=60"`
+	Name *string `json:"name"`
+	GradeScore *int `json:"grade_score"`
 }
 
 func (u *UserHandler) Update(c *gin.Context) {

@@ -1,14 +1,13 @@
 package usecase
 
 import (
-	"fmt"
 	"go_todo/domain/model"
 	"go_todo/domain/repository"
 )
 
 type User interface {
 	Create(name string, gradeScore int) error
-	Update(id int, name string, gradeScore int) error
+	Update(id int, name *string, gradeScore *int) error
 	Delete(id int) error
 	Find(id int) (*model.User, error)
 	FindAll() ([]*model.User, error)
@@ -37,20 +36,23 @@ func (u *UserUseCase) Create(name string, gradeScore int) error {
 // 	return nil
 // }
 
-func (u *UserUseCase) Update(id int, name string, gradeScore int) error {
+func (u *UserUseCase) Update(id int, name *string, gradeScore *int) error {
 	user, err := u.userRepository.Find(id)
-	fmt.Println(user, err)
 	if err != nil {
 		return err
 	}
 
 	// TODO: name, gradeのどちらかがない場合でも問題なく更新できるようにする
-	user.Name = name
+	if name != nil {
+		user.Name = *name
+	}
 
-	if user.Grade == nil {
-		user.Grade = model.NewGrade(user.ID, gradeScore)
-	} else {
-		user.Grade.Score = gradeScore
+	if gradeScore != nil {
+		if user.Grade == nil {
+			user.Grade = model.NewGrade(user.ID, *gradeScore)
+		} else {
+			user.Grade.Score = *gradeScore
+		}
 	}
 
 	if err := u.userRepository.Update(user); err != nil {
