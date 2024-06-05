@@ -1,8 +1,16 @@
 # コマンド
 
+## Docker キャッシュ削除
+
+`docker compose down --rmi all --volumes --remove-orphans`
+
 ## Docker 起動
 
 `docker compose up`
+
+### cache 無しビルド
+
+`docker compose build --no-cache`
 
 ## Mysql アクセス
 
@@ -10,8 +18,8 @@
 
 ## コンテナから Mysql にアクセス
 
-`docker exec -it db-for-go bash
-`
+`docker exec -it db-for-go bash`
+
 `mysql -u root -p`
 
 USE {DB_NAME}

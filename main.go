@@ -46,6 +46,10 @@ func setupRouter(d *gorm.DB) *gin.Engine {
 	recipeUsecase := usecase.NewRecipe(recipeRepository)
 	recipeHandler := handler.NewRecipe(recipeUsecase)
 
+	userRepository := infrastructure.NewUserRepository(d)
+	userUsecase := usecase.NewUserUseCase(userRepository)
+	userHandler := handler.NewUserHandler(userUsecase)
+
 	todo := r.Group("/todo")
 	{
 		todo.POST("", todoHandler.Create)
@@ -62,6 +66,15 @@ func setupRouter(d *gorm.DB) *gin.Engine {
 		recipe.GET("/:id", recipeHandler.Find)
 		recipe.PUT("/:id", recipeHandler.Update)
 		recipe.DELETE("/:id", recipeHandler.Delete)
+	}
+
+	user := r.Group("/user")
+	{
+		user.POST("", userHandler.Create)
+		user.GET("/", userHandler.FindAll)
+		user.GET("/:id", userHandler.Find)
+		user.PUT("/:id", userHandler.Update)
+		user.DELETE("/:id", userHandler.Delete)
 	}
 
 	return r

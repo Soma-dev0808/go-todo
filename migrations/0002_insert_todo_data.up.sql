@@ -1,4 +1,4 @@
-INSERT INTO `todo` (`task`, `status`) VALUES
+INSERT INTO `todos` (`task`, `status`) VALUES
 ('タスク1', 'created'),
 ('タスク2', 'processing'),
 ('タスク3', 'done'),

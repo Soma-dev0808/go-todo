@@ -10,6 +10,8 @@ type Todo struct {
 	UpdatedAt time.Time `gorm:"<-:false"`
 }
 
+func (Todo) TableName() string { return "todos" }
+
 func NewTodo(task string) *Todo {
 	return &Todo{
 		Task: task,

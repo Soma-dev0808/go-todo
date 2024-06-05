@@ -10,6 +10,8 @@ type Recipe struct {
 	UpdatedAt time.Time `gorm:"<-:false"`
 }
 
+func (Recipe) TableName() string { return "recipes" }
+
 func NewRecipe(name string) *Recipe{
 	return &Recipe{
 		Name: name, 
