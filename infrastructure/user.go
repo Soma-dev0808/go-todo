@@ -74,6 +74,26 @@ func (ud *UserRepository) Find(id int) (*model.User, error) {
 	return user, nil
 }
 
+// TODO: 完成させる
+func (ud *UserRepository) FindBy(name * string, grade *int) (*model.User, error) {
+	var user *model.User;
+	q := ud.db.Debug().Preload("Grade").Find(&user);
+	if name != nil {
+		q.Where("name = ?", name)
+	}
+
+	if grade != nil {
+		q.Where("grade.score >= ?", grade)
+	}
+
+	err := q.Error;
+
+	if err != nil {
+		return nil, err
+	}
+	return user, nil
+}
+
 func (ud *UserRepository) FindAll() ([]*model.User, error) {
 	var users []*model.User
 	// err := ud.db.Debug().Preload("Grade").Joins("JOIN grade on grade.user_id = user.id AND grade.score >= ?", 5).Find(&users).Error;

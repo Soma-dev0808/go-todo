@@ -8,5 +8,6 @@ type User interface {
 	Update(u *model.User) error
 	Delete(id int) error
 	Find(id int) (*model.User, error)
+	FindBy(name *string, grade *int) (*model.User, error)
 	FindAll() ([]*model.User, error)
 }
