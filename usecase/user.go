@@ -10,6 +10,7 @@ type User interface {
 	Update(id int, name *string, gradeScore *int) error
 	Delete(id int) error
 	Find(id int) (*model.User, error)
+	FindBy(name *string, grade *int) ([]*model.User, error)
 	FindAll() ([]*model.User, error)
 }
 
@@ -75,6 +76,14 @@ func (u *UserUseCase) Find(id int) (*model.User, error) {
 		return nil, err
 	}
 	return user, nil
+}
+
+func (u *UserUseCase) FindBy(name *string, grade *int) ([]*model.User, error) {
+	users, err := u.userRepository.FindBy(name, grade)
+	if err != nil {
+		return nil, err
+	}
+	return users, nil
 }
 
 func (u *UserUseCase) FindAll() ([]*model.User, error) {

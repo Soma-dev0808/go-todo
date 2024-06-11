@@ -75,8 +75,8 @@ func (ud *UserRepository) Find(id int) (*model.User, error) {
 }
 
 // TODO: 完成させる
-func (ud *UserRepository) FindBy(name * string, grade *int) (*model.User, error) {
-	var user *model.User;
+func (ud *UserRepository) FindBy(name * string, grade *int) ([]*model.User, error) {
+	var user []*model.User;
 	q := ud.db.Debug().Preload("Grade").Find(&user);
 	if name != nil {
 		q.Where("name = ?", name)
