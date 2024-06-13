@@ -106,6 +106,26 @@ func (u *UserHandler) Find(c *gin.Context) {
 	c.JSON(http.StatusOK, user)
 }
 
+type FindByUserRequestParam struct {
+	Name *string `uri:"name"`
+	grade *int `uri:"grade"`
+}
+
+
+func (u *UserHandler) FindBy(c *gin.Context) {
+	var req FindByUserRequestParam
+	if err := c.ShouldBindUri(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	users, err := u.userUsecase.FindBy(req.Name, req.grade)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, users)
+}
+
 func (u *UserHandler) FindAll(c *gin.Context) {
 	users, err := u.userUsecase.FindAll()
 	if err != nil {
